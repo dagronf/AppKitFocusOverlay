@@ -162,7 +162,7 @@ private extension AppKitFocusOverlay {
 		// And listen for attached window size changes
 		attachResizeHandler(window: window, startingAt: view)
 
-		Swift.print("window - \(self.overlayWindow), \(self.overlayWindow.frame)")
+		//Swift.print("window - \(self.overlayWindow), \(self.overlayWindow.frame)")
 	}
 
 	func nextFocusFor(_ view: NSView, seenViews: [NSView] = []) -> [ViewRepresent] {
