@@ -93,9 +93,11 @@ import HotKey
 	private weak var _lastAttachedWindow: NSWindow? {
 		willSet {
 			self._lastAttachedWindow?.removeChildWindow(self.overlayWindow)
+			self.overlayWindow.setIsVisible(false)
 		}
 		didSet {
 			if let w = _lastAttachedWindow {
+				self.overlayWindow.setIsVisible(true)
 				w.addChildWindow(self.overlayWindow, ordered: .above)
 				self.overlayWindow.level = .normal
 			}
@@ -266,9 +268,15 @@ internal class FocusOverlayView: NSView {
 	}
 
 	override func draw(_ dirtyRect: NSRect) {
-		guard let ctx = NSGraphicsContext.current?.cgContext else { return }
+		guard
+			let ctx = NSGraphicsContext.current?.cgContext,
+			var previousItem: AppKitFocusOverlay.ViewRepresent = self.currentChain.first
+		else {
+			// No items to draw
+			return
+		}
 
-		var previous: AppKitFocusOverlay.ViewRepresent?
+		var isFirst = true
 
 		self.currentChain.reversed().forEach { viewElement in
 
@@ -286,75 +294,75 @@ internal class FocusOverlayView: NSView {
 				}
 			}()
 
-			ctx.usingGState { context in
-				let cir = CGPath(ellipseIn: CGRect(x: ep.x - 8, y: ep.y - 8, width: 16, height: 16),
-									  transform: nil)
+			// Draw the circle
 
-				let targetColor: CGColor = {
-					NSColor.systemRed.cgColor
-//					if let currentlyFocussed = thisView.window?.firstResponder,
-//						let fieldEditor = currentlyFocussed as? NSText,
-//						fieldEditor.isFieldEditor,
-//						let orig = fieldEditor.delegate as? NSTextField,
-//						orig === thisView
-//					{
-//						return NSColor.systemYellow.cgColor
-//					}
-//					else if thisView.window?.firstResponder === thisView {
-//						return NSColor.systemYellow.cgColor
-//					}
-//					else {
-//						return NSColor.systemRed.cgColor
-//					}
-				}()
+			let circleTargetPath = CGPath(
+				ellipseIn: CGRect(x: ep.x - 8, y: ep.y - 8, width: 16, height: 16),
+				transform: nil)
 
-				context.setFillColor(targetColor)
-				context.addPath(cir)
-				context.fillPath()
-
-				context.setStrokeColor(.black)
-				context.setLineWidth(1)
-				context.addPath(cir)
-				context.strokePath()
+			ctx.usingGState {
+				Palette.addDropShadow($0)
+				$0.setFillColor(Palette.targetColor)
+				$0.addPath(circleTargetPath)
+				$0.fillPath()
 			}
 
-			if let l = previous, l.isValid {
+			ctx.usingGState {
+				$0.setStrokeColor(.black)
+				$0.setLineWidth(1)
+				$0.addPath(circleTargetPath)
+				$0.strokePath()
+			}
+
+			// If the item is invalid (ie. the view no longer exists) then we'll skip
+			// over it
+
+			if previousItem.isValid {
 				let lpos: AppKitFocusOverlay.Which = {
-					if l.view is NSControl { return .center }
+					if previousItem.view is NSControl { return .center }
 					return .top
 				}()
 
 				let sp: CGPoint = {
 					switch lpos {
-					case .top: return CGPoint(x: l.rect.midX, y: l.rect.maxY - 16)
-					default: return CGPoint(x: l.rect.midX, y: l.rect.midY)
+					case .top: return CGPoint(x: previousItem.rect.midX, y: previousItem.rect.maxY - 16)
+					default: return CGPoint(x: previousItem.rect.midX, y: previousItem.rect.midY)
 					}
 				}()
 
 				// Arrow
 
-				let pth = CGPath.arrow(from: ep, to: sp, tailWidth: 4, headWidth: 12, headLength: 16)
+				let arrowPath = CGPath.arrow(from: ep, to: sp, tailWidth: 4, headWidth: 12, headLength: 16)
 
-				ctx.usingGState { context in
-					context.setShadow(
-						offset: CGSize(width: 0, height: 0),
-						blur: 4,
-						color: NSColor.keyboardFocusIndicatorColor.cgColor
-					)
-					context.addPath(pth)
-					context.setFillColor(NSColor.textColor.cgColor)
-					context.fillPath()
+				if isFirst {
+					// This is the point where the key loop ends and returns to the initial view responder.
+					// Draw a lighter arrow to indicate the closing of the loop
+					isFirst = false
+					ctx.usingGState { context in
+						Palette.addDropShadow(context)
+						context.addPath(arrowPath)
+						context.setFillColor(Palette.secondaryArrowFill)
+						context.fillPath()
+					}
 				}
+				else {
+					ctx.usingGState { context in
+						Palette.addDropShadow(context)
+						context.addPath(arrowPath)
+						context.setFillColor(Palette.primaryArrowFill)
+						context.fillPath()
+					}
 
-				ctx.usingGState { context in
-					context.addPath(pth)
-					context.setStrokeColor(NSColor.textBackgroundColor.cgColor)
-					context.setLineWidth(2)
-					context.setLineJoin(.bevel)
-					context.strokePath()
+					ctx.usingGState { context in
+						context.addPath(arrowPath)
+						context.setStrokeColor(Palette.primaryArrowStroke)
+						context.setLineWidth(1.5)
+						context.setLineJoin(.bevel)
+						context.strokePath()
+					}
 				}
 			}
-			previous = viewElement
+			previousItem = viewElement
 		}
 	}
 }
