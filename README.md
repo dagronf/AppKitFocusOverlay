@@ -51,9 +51,9 @@ You can define the hotkeys to use in the initializer of the instance. By default
 import AppKitFocusOverlay
 import HotKey               // Available due to AppKitFocusOverlay dependency 
 
-let _globalFocusOverlay = AppKitFocusOverlay(
-   windowHotKey: HotKey = HotKey(key: .f13, modifiers: []),
-   viewHotKey: HotKey = HotKey(key: .f14, modifiers: [])
+let _globalFocusOverlay: AppKitFocusOverlay(
+   windowHotKey: HotKey(key: .f13, modifiers: []),
+   viewHotKey: HotKey(key: .f14, modifiers: [])
 )
 
 func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -63,6 +63,10 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
 }
 
 ```
+
+# Screenshots
+
+<img src="https://github.com/dagronf/dagronf.github.io/blob/master/art/projects/AppKitFocusOverlay/qr-example.jpg?raw=true" width="600"/>
 
 # Thanks!
 
