@@ -1,6 +1,6 @@
 # AppKitFocusOverlay
 
-A simple package for displaying the current focus target path for an AppKit window.
+A simple package for displaying the current focus (`nextKeyView`) target path for an AppKit window.
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/AppKitFocusOverlay" />
@@ -22,15 +22,23 @@ A simple package for displaying the current focus target path for an AppKit wind
 
 Supports both Swift and Objective-C projects.
 
+## Why?
+
+It's important for your app to be keyboard navigable and that the tab path makes sense to a user. There's been a bit of discussion of recent regarding keyboard navigation on iOS, [highlighting the `-UIFocusLoopDebuggerEnabled YES` launch argument option for iOS apps in Xcode.](https://twitter.com/stroughtonsmith/status/1473669534712274944?s=20). The question was posed as to whether this also worked for AppKit, and the short answer was no.
+
+I built the prototype for this a few years back for use in my own apps. It's not as frictionless as adding a launch argument but it's straight forward enough to add. Given how useful it's been for me I thought I'd package it up cleanly and make it public.
+
 ## Demo
 
 <a href="https://github.com/dagronf/dagronf.github.io/blob/master/art/projects/AppKitFocusOverlay/example.mp4?raw=true">Click here to see a demo video</a> of the focus overlay added to the wonderful '[ControlRoom](https://github.com/twostraws/ControlRoom)' application.
 
-There is also a very basic AppKit example applications in both Swift and Objective-C in the `Demo` subfolder you can play with.
+There are also very basic AppKit example applications (using both Swift and Objective-C) in the `Demo` subfolder you can play with.
 
 ## Simple setup
 
-Define a global instance of `AppKitFocusOverlay` in your app and access the instance within a method that gets called early in your app's lifecycle, such as `applicationDidFinishLaunching`.
+* Add the `https://github.com/dagronf/AppKitFocusOverlay` package to your application.
+
+* Define a global instance of `AppKitFocusOverlay` in your app and access the instance within a method that gets called early in your app's lifecycle, such as `applicationDidFinishLaunching`.
 
 ```swift
 import AppKitFocusOverlay
@@ -88,7 +96,10 @@ You can add `AppKitFocusOverlay` to your Objective-C project easily.
 @end
 ```
 
-Note that if you need to customize the hotkeys for objective-c you'll need to fork this library and change the code in `AppKitFocusOverlay.swift`, as the HotKey library is not exposed through Objective-C and as such the hotkey-setting initializers are not exposed to objc.
+#### Notes
+
+* You may need to embed the swift libraries (Build settings) if your app doesn't already if you're planning to distribute an archive or release build to (eg.) your QA dept.
+* If you need to customize the hotkeys for objective-c you'll need to fork this library and change the code in `AppKitFocusOverlay.swift`, as the HotKey library is not exposed through Objective-C and as such the hotkey-setting initializers are not exposed to objc.
 
 # Screenshots
 

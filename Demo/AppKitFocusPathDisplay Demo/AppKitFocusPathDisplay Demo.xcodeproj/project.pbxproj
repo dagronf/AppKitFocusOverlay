@@ -6,6 +6,21 @@
 	objectVersion = 55;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		2307D94E27856CF60011C9CC /* All Demos */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2307D94F27856CF60011C9CC /* Build configuration list for PBXAggregateTarget "All Demos" */;
+			buildPhases = (
+			);
+			dependencies = (
+				2307D95327856CFF0011C9CC /* PBXTargetDependency */,
+				2307D95527856CFF0011C9CC /* PBXTargetDependency */,
+			);
+			name = "All Demos";
+			productName = "All Demos";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2327C09427852DB80064D988 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2327C09327852DB80064D988 /* AppDelegate.m */; };
 		2327C09727852DB80064D988 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2327C09627852DB80064D988 /* ViewController.m */; };
@@ -19,6 +34,23 @@
 		23C2E0B8277E8814007D5CF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23C2E0B6277E8814007D5CF0 /* Main.storyboard */; };
 		23E8CDFE27811B2A00E7D58F /* AppKitFocusOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 23E8CDFD27811B2A00E7D58F /* AppKitFocusOverlay */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2307D95227856CFF0011C9CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23C2E0A5277E8812007D5CF0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2327C08F27852DB80064D988;
+			remoteInfo = "AppKitFocusOverlay Objc Demo";
+		};
+		2307D95427856CFF0011C9CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23C2E0A5277E8812007D5CF0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23C2E0AC277E8812007D5CF0;
+			remoteInfo = "AppKitFocusPathDisplay Demo";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2327C09027852DB80064D988 /* AppKitFocusOverlay Objc Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppKitFocusOverlay Objc Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +200,9 @@
 				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					2307D94E27856CF60011C9CC = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					2327C08F27852DB80064D988 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -191,6 +226,7 @@
 			targets = (
 				23C2E0AC277E8812007D5CF0 /* AppKitFocusPathDisplay Demo */,
 				2327C08F27852DB80064D988 /* AppKitFocusOverlay Objc Demo */,
+				2307D94E27856CF60011C9CC /* All Demos */,
 			);
 		};
 /* End PBXProject section */
@@ -238,6 +274,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2307D95327856CFF0011C9CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2327C08F27852DB80064D988 /* AppKitFocusOverlay Objc Demo */;
+			targetProxy = 2307D95227856CFF0011C9CC /* PBXContainerItemProxy */;
+		};
+		2307D95527856CFF0011C9CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23C2E0AC277E8812007D5CF0 /* AppKitFocusPathDisplay Demo */;
+			targetProxy = 2307D95427856CFF0011C9CC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		2327C09A27852DB90064D988 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -258,9 +307,28 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2307D95027856CF60011C9CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2307D95127856CF60011C9CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		2327C0A027852DB90064D988 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AppKitFocusOverlay Objc Demo/AppKitFocusOverlay_Objc_Demo.entitlements";
@@ -289,6 +357,7 @@
 		2327C0A127852DB90064D988 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AppKitFocusOverlay Objc Demo/AppKitFocusOverlay_Objc_Demo.entitlements";
@@ -490,6 +559,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2307D94F27856CF60011C9CC /* Build configuration list for PBXAggregateTarget "All Demos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2307D95027856CF60011C9CC /* Debug */,
+				2307D95127856CF60011C9CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2327C0A227852DB90064D988 /* Build configuration list for PBXNativeTarget "AppKitFocusOverlay Objc Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
