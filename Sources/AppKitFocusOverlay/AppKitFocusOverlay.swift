@@ -25,40 +25,49 @@ import AppKit
 import Foundation
 import HotKey
 
-public class AppKitFocusOverlay {
+@objc public class AppKitFocusOverlay: NSObject {
+	/// Create an instance of the focus overlay using the default options
+	@objc override public init() {
+		self.hotKeyWindow = HotKey(key: .leftBracket, modifiers: [.option])
+		self.hotKeyView = HotKey(key: .rightBracket, modifiers: [.option])
+		self.shouldRecalculateKeyViewLoop = true
+		super.init()
+		self.setupHotKeys()
+	}
+
 	/// Create an instance of the focus overlay
 	/// - Parameters:
 	///   - windowHotKey: The hotkey to use for displaying the focus path for the window
 	///   - viewHotKey: The hotkey to use for displaying the focus path from the currently focussed UI element.
 	///   - shouldRecalculateKeyViewLoop: If true, recalculates the window's key view loop before displaying the overlay
 	public init(
-		windowHotKey: HotKey = HotKey(key: .leftBracket, modifiers: [.option]),
-		viewHotKey: HotKey = HotKey(key: .rightBracket, modifiers: [.option]),
+		windowHotKey: HotKey,
+		viewHotKey: HotKey,
 		shouldRecalculateKeyViewLoop: Bool = true
 	) {
 		self.hotKeyWindow = windowHotKey
 		self.hotKeyView = viewHotKey
 		self.shouldRecalculateKeyViewLoop = shouldRecalculateKeyViewLoop
+		super.init()
 		self.setupHotKeys()
 	}
 
-	/// Present the focus overlay starting at the specified view
-	public func present(startingAt view: NSView) {
-		guard let window = view.window else { return }
-		_present(window: window, startingAt: view)
-	}
-
-	/// Present the focus overlay for the current window. if a responder is specified, start from this specific ui element
-	public func present(_ window: NSWindow, _ responder: NSResponder? = nil) {
-		guard let startingView = (responder ?? window.initialFirstResponder) as? NSView else { return }
-		_present(window: window, startingAt: startingView)
-	}
-
-	/// Hide the focus overlay
-	public func clear() {
-		self._lastAttachedWindow = nil
-		detachResizeHandler()
-		self.overlayView.currentChain = []
+	/// Create an instance of the focus overlay
+	/// - Parameters:
+	///   - shouldRecalculateKeyViewLoop: If true, recalculates the window's key view loop before displaying the overlay
+	///
+	/// If you perform your own custom key loop handling, you need to set this to false.
+	///
+	/// This is primarily a convenience for objective-c support, as the HotKey library is not exposed to objective-c.
+	/// If you need to customize the hotkeys for objective-c you'll need to fork this library and change the code.
+	@objc public init(
+		shouldRecalculateKeyViewLoop: Bool
+	) {
+		self.hotKeyWindow = HotKey(key: .leftBracket, modifiers: [.option])
+		self.hotKeyView = HotKey(key: .rightBracket, modifiers: [.option])
+		self.shouldRecalculateKeyViewLoop = shouldRecalculateKeyViewLoop
+		super.init()
+		self.setupHotKeys()
 	}
 
 	// private
@@ -73,6 +82,7 @@ public class AppKitFocusOverlay {
 		w.contentView = self.overlayView
 		return w
 	}()
+
 	private let overlayView = FocusOverlayView()
 	private let shouldRecalculateKeyViewLoop: Bool
 	private var resizeObserver: NSObjectProtocol?
@@ -90,6 +100,27 @@ public class AppKitFocusOverlay {
 				self.overlayWindow.level = .normal
 			}
 		}
+	}
+}
+
+public extension AppKitFocusOverlay {
+	/// Present the focus overlay starting at the specified view
+	@objc func present(startingAt view: NSView) {
+		guard let window = view.window else { return }
+		_present(window: window, startingAt: view)
+	}
+
+	/// Present the focus overlay for the current window. if a responder is specified, start from this specific ui element
+	@objc func present(_ window: NSWindow, _ responder: NSResponder? = nil) {
+		guard let startingView = (responder ?? window.initialFirstResponder) as? NSView else { return }
+		_present(window: window, startingAt: startingView)
+	}
+
+	/// Hide the focus overlay
+	@objc func clear() {
+		self._lastAttachedWindow = nil
+		detachResizeHandler()
+		self.overlayView.currentChain = []
 	}
 }
 
@@ -144,7 +175,7 @@ private extension AppKitFocusOverlay {
 
 		guard let contentView = window.contentView else { return }
 
-		if shouldRecalculateKeyViewLoop {
+		if self.shouldRecalculateKeyViewLoop {
 			window.recalculateKeyViewLoop()
 		}
 
@@ -162,7 +193,7 @@ private extension AppKitFocusOverlay {
 		// And listen for attached window size changes
 		attachResizeHandler(window: window, startingAt: view)
 
-		//Swift.print("window - \(self.overlayWindow), \(self.overlayWindow.frame)")
+		// Swift.print("window - \(self.overlayWindow), \(self.overlayWindow.frame)")
 	}
 
 	func nextFocusFor(_ view: NSView, seenViews: [NSView] = []) -> [ViewRepresent] {
@@ -261,20 +292,20 @@ internal class FocusOverlayView: NSView {
 
 				let targetColor: CGColor = {
 					NSColor.systemRed.cgColor
-					//					if let currentlyFocussed = thisView.window?.firstResponder,
-					//						let fieldEditor = currentlyFocussed as? NSText,
-					//						fieldEditor.isFieldEditor,
-					//						let orig = fieldEditor.delegate as? NSTextField,
-					//						orig === thisView
-					//					{
-					//						return NSColor.systemYellow.cgColor
-					//					}
-					//					else if thisView.window?.firstResponder === thisView {
-					//						return NSColor.systemYellow.cgColor
-					//					}
-					//					else {
-					//						return NSColor.systemRed.cgColor
-					//					}
+//					if let currentlyFocussed = thisView.window?.firstResponder,
+//						let fieldEditor = currentlyFocussed as? NSText,
+//						fieldEditor.isFieldEditor,
+//						let orig = fieldEditor.delegate as? NSTextField,
+//						orig === thisView
+//					{
+//						return NSColor.systemYellow.cgColor
+//					}
+//					else if thisView.window?.firstResponder === thisView {
+//						return NSColor.systemYellow.cgColor
+//					}
+//					else {
+//						return NSColor.systemRed.cgColor
+//					}
 				}()
 
 				context.setFillColor(targetColor)

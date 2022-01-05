@@ -20,11 +20,13 @@ A simple package for displaying the current focus target path for an AppKit wind
 * Press and hold `option-[` key to display the focus key path for the currently focussed window
 * Press and hold `option-]` key to display the focus key path from the currently focussed UI element.
 
+Supports both Swift and Objective-C projects.
+
 ## Demo
 
 <a href="https://github.com/dagronf/dagronf.github.io/blob/master/art/projects/AppKitFocusOverlay/example.mp4?raw=true">Click here to see a demo video</a> of the focus overlay added to the wonderful '[ControlRoom](https://github.com/twostraws/ControlRoom)' application.
 
-There is also a very basic AppKit example application in the `Demo` subfolder you can play with
+There is also a very basic AppKit example applications in both Swift and Objective-C in the `Demo` subfolder you can play with.
 
 ## Simple setup
 
@@ -61,12 +63,39 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
    _ = _globalFocusOverlay
    ...
 }
-
 ```
+
+### Objective-C support
+
+You can add `AppKitFocusOverlay` to your Objective-C project easily.
+
+```objc
+@import AppKitFocusOverlay;
+
+@interface AppDelegate ()
+/// Define an instance of the focus overlay
+@property (nonatomic, strong) AppKitFocusOverlay* focusOverlay;
+@end
+
+@implementation AppDelegate
+
+- (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
+   /// Create the overlay and attach
+   AppKitFocusOverlay* focus = [[AppKitFocusOverlay alloc] init];
+   [self setFocusOverlay: focus];
+}
+
+@end
+```
+
+Note that if you need to customize the hotkeys for objective-c you'll need to fork this library and change the code in `AppKitFocusOverlay.swift`, as the HotKey library is not exposed through Objective-C and as such the hotkey-setting initializers are not exposed to objc.
 
 # Screenshots
 
 <img src="https://github.com/dagronf/dagronf.github.io/blob/master/art/projects/AppKitFocusOverlay/qr-example.jpg?raw=true" width="600"/>
+
+<img src="https://github.com/dagronf/dagronf.github.io/blob/master/art/projects/AppKitFocusOverlay/custom-tabbing-order-objc.jpg?raw=true" width="380"/>
+
 
 # Thanks!
 
