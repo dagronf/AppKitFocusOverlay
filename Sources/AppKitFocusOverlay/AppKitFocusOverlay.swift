@@ -224,7 +224,7 @@ private extension AppKitFocusOverlay {
 			result.append(ViewRepresent(view: actualView, rect: r))
 		}
 
-		if let next = actualView.nextKeyView {
+		if let next = actualView.nextValidKeyView {
 			let alreadyVisited = seenViews + [actualView]
 			let nextOnes = self.nextFocusFor(next, seenViews: alreadyVisited)
 			result.append(contentsOf: nextOnes)
