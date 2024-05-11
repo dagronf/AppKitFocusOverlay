@@ -1,6 +1,5 @@
 //
-//  Created by Darren Ford on 6/1/2022.
-//  Copyright © 2022 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT license
 //

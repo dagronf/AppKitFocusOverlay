@@ -1,8 +1,5 @@
 //
-//  CGPath+arrow.swift
-//
-//  Created by Darren Ford on 28/12/2021.
-//  Copyright © 2021 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT license
 //

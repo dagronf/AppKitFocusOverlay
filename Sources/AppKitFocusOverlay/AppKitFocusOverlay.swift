@@ -1,9 +1,5 @@
 //
-//  FocusOverlay.swift
-//  AppKitFocusPathDisplay
-//
-//  Created by Darren Ford on 28/12/2021.
-//  Copyright © 2021 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT license
 //
@@ -60,9 +56,7 @@ import HotKey
 	///
 	/// This is primarily a convenience for objective-c support, as the HotKey library is not exposed to objective-c.
 	/// If you need to customize the hotkeys for objective-c you'll need to fork this library and change the code.
-	@objc public init(
-		shouldRecalculateKeyViewLoop: Bool
-	) {
+	@objc public init(shouldRecalculateKeyViewLoop: Bool) {
 		self.hotKeyWindow = HotKey(key: .leftBracket, modifiers: [.option])
 		self.hotKeyView = HotKey(key: .rightBracket, modifiers: [.option])
 		self.shouldRecalculateKeyViewLoop = shouldRecalculateKeyViewLoop

@@ -1,8 +1,5 @@
 //
-//  CGContext+extensions.swift
-//
-//  Created by Darren Ford on 19/11/21.
-//  Copyright © 2021 Darren Ford. All rights reserved.
+//  Copyright © 2024 Darren Ford. All rights reserved.
 //
 //  MIT license
 //
