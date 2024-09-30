@@ -17,8 +17,8 @@ A simple package for displaying the current focus (`nextKeyView`) target path fo
 	</a>
 </p>
 
-* Press and hold `option-[` key to display the focus key path for the currently focussed window
-* Press and hold `option-]` key to display the focus key path from the currently focussed UI element.
+* Press and hold `command-option-[` key to display the focus key path for the currently focussed window
+* Press and hold `command-option-]` key to display the focus key path from the currently focussed UI element.
 
 Supports both Swift and Objective-C projects.
 
@@ -55,7 +55,15 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
 
 ### Custom hotkeys
 
-You can define the hotkeys to use in the initializer of the instance. By default, these are `option-[` and `option-]`, but you can change them to `f13` and `f14` (for example) if you want.
+You can define the hotkeys to use in the initializer of the instance. By default, these are `command-option-[` and `command-option-]`, but you can change them to `f13` and `f14` (for example) if you want.
+
+Note that as of macOS 10.15 Sequoia [shortcuts _must_ include a modifier that isn't shift or option](https://developer.apple.com/forums//thread/763878?src=push&answerId=804374022#804374022) 
+
+> This was an intentional change in macOS Sequoia to limit the ability of key-logging malware to observe keys in other applications. The issue of concern was that shift+option can be used to generate alternate characters in passwords, such as Ø (shift-option-O).
+> 
+> There is no workaround; macOS Sequoia now requires that a hotkey registration use at least one modifier that is not shift or option.
+
+#### Example
 
 ```swift
 import AppKitFocusOverlay
