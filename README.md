@@ -57,7 +57,7 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
 
 You can define the hotkeys to use in the initializer of the instance. By default, these are `command-option-[` and `command-option-]`, but you can change them to `f13` and `f14` (for example) if you want.
 
-Note that as of macOS 10.15 Sequoia [shortcuts _must_ include a modifier that isn't shift or option](https://developer.apple.com/forums//thread/763878?src=push&answerId=804374022#804374022) 
+Note that as of macOS 15.0 Sequoia [shortcuts _must_ include a modifier that isn't shift or option](https://developer.apple.com/forums//thread/763878?src=push&answerId=804374022#804374022) 
 
 > This was an intentional change in macOS Sequoia to limit the ability of key-logging malware to observe keys in other applications. The issue of concern was that shift+option can be used to generate alternate characters in passwords, such as Ø (shift-option-O).
 > 

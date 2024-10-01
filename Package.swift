@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
 	name: "AppKitFocusOverlay",
 	platforms: [
-		.macOS(.v10_11)
+		.macOS(.v10_13)
 	],
 	products: [
 		.library(
@@ -13,7 +13,7 @@ let package = Package(
 			targets: ["AppKitFocusOverlay"]),
 	],
 	dependencies: [
-		.package(url: "https://github.com/dagronf/HotKey", from: "0.1.3")
+		.package(url: "https://github.com/dagronf/HotKey", from: "0.2.0")
 	],
 	targets: [
 		.target(
